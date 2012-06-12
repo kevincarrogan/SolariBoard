@@ -6,7 +6,6 @@ var LastFmNode = require('lastfm').LastFmNode
 var port = process.env.PORT || 5000;
 
 app.listen(port, function () {
-    console.log("Listening on " + port);
 });
 
 app.use('/src', express.static(__dirname + '/src'))
@@ -15,6 +14,10 @@ app.use('/src', express.static(__dirname + '/src'))
    .use('/plugins', express.static(__dirname + '/plugins'));
 
 app.get('/', function (req, res) {
+    res.sendfile(__dirname + '/index.html');
+});
+
+app.get('/lastfm', function (req, res) {
     res.sendfile(__dirname + '/webgl.html');
 });
 
@@ -23,55 +26,42 @@ io.configure(function () {
     io.set('polling duration', 5);
 });
 
-var sockets = [];
+function createListener(username, socket) {
+    return function (track) {
+        socket.emit(
+            'lastfm',
+            {
+                username: username,
+                track: track.name,
+                artist: track.artist['#text'],
+                image: track.image[3]['#text']
+            }
+        );
+    };
+}
 
-io.sockets.on('connection', function (socket){
-    console.log('Socket setup');
-    sockets.push(socket);
-});
-
-console.log(process.env.API_KEY);
-console.log(process.env.SECRET);
+function err(error) {
+}
 
 var lastfm = new LastFmNode({
     api_key: process.env.API_KEY,
     secret: process.env.SECRET
 });
 
-var users = ['kevbear'],
-    streams = [];
-
-function createListener(username) {
-    console.log('Stream setup');
-    return function (track) {
-        console.log('Got track ', track);
-        for (var a = 0; a < sockets.length; a++) {
-            sockets[a].emit(
-                'lastfm',
-                {
-                    username: username,
-                    track: track.name,
-                    artist: track.artist['#text'],
-                    image: track.image[3]['#text']
-                }
+io.sockets.on('connection', function (socket) {
+    socket.on('set username', function (username) {
+        socket.set('username', username, function () {
+            var stream;
+            stream = lastfm.stream(username);
+            stream.on(
+                'nowPlaying',
+                createListener(username, socket)
             );
-        }
-    };
-}
-
-function err(error) {
-    console.log(error);
-}
-
-for (var i = 0; i < users.length; i++) {
-    streams[i] = lastfm.stream(users[i]);
-    streams[i].on(
-        'nowPlaying',
-        createListener(users[i])
-    );
-    streams[i].on(
-        'error',
-        err
-    );
-    streams[i].start();
-}
+            stream.on(
+                'error',
+                err
+            );
+            stream.start();
+        });
+    });
+});

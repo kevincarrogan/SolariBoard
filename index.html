@@ -14,35 +14,6 @@
 	<script src="/src/SolariScreen.js"></script>
 	<script src="/src/Solari.js"></script>
 	<script src="/src/SolariPlugin.js"></script>
-	<script src="/plugins/lastfm.js"></script>
-	<script>
-	(function(){
-	var board = window.Board = new Solari;
-	new SolariTexture().bind('load', function(){
-		var alphaSet = this;
-			var row,
-				statusSet = this;
-
-			$('#container').append(board.el);
-
-			_(8).times(function(){
-				row = new SolariRow(board.y);
-
-				_(20).times(function(){
-					row.add(alphaSet);
-				});
-				row.add(statusSet);
-				board.add(row);
-			});
-			var uri = URI(window.location.href);
-			var username = uri.query(true).username;
-			var lastFmPlugin = new LastFmPlugin(username);
-			board.registerPlugin(lastFmPlugin);
-			Board.start();
-    }).load('/img/chars.png', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-.# '.split(''), 70, 63);
-
-	})();
-	</script>
 	<style>
 	*{
 		margin:0;
@@ -50,12 +21,42 @@
 		overflow:hidden;
 	}
 	body{
+		text-align: center;
 		background:#000;
 		background-image:-webkit-linear-gradient(90deg, rgba(0,0,0,0.5), rgba(0,0,0,0)), url('/img/bg.png');
+		font-family:proxima-nova-condensed-1,proxima-nova-condensed-2,helvetica,arial,sans-serif;
+		font-size:18px;
+		line-height:20px;
+		color:#e1e1e1;
+		padding:0 20px 20px;
+		text-shadow:1px 1px 0 #000;;
+	}
+	input{
+		height: 18px;
+		border-radius: 6px;
+		border: 2px solid rgba(0, 0, 0, 0.15);
+	}
+	#content{
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		height: 200px;
+		width: 420px;
+		margin-left: -210px;
+		margin-top: -75px;
 	}
 	</style>
 </head>
 <body>
-	<div id="container"></div>
+	<div id="content">
+		<img src="/img/title.png" />
+		<form action="lastfm">
+			<label>
+				Enter your last.fm username
+				<input type="text" name="username" />
+			</label>
+			<button type="submit">GO!</submit>
+		</form>
+	</div>
 </body>
 </html>
