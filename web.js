@@ -59,7 +59,7 @@ function createListener(username) {
 }
 
 function err(error) {
-    //NOOP
+    console.log(error);
 }
 
 for (var i = 0; i < users.length; i++) {
