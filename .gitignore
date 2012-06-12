@@ -1,2 +1,3 @@
 .DS_Store
 servers/lastfm.config.js
+node_modules
