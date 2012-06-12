@@ -44,6 +44,7 @@ var users = ['kevbear'],
 function createListener(username) {
     console.log('Stream setup');
     return function (track) {
+        console.log('Got track ', track);
         for (var a = 0; a < sockets.length; a++) {
             sockets[a].emit(
                 'lastfm',
