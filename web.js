@@ -26,8 +26,12 @@ io.configure(function () {
 var sockets = [];
 
 io.sockets.on('connection', function (socket){
+    console.log('Socket setup');
     sockets.push(socket);
 });
+
+console.log(process.env.API_KEY);
+console.log(process.env.SECRET);
 
 var lastfm = new LastFmNode({
     api_key: process.env.API_KEY,
@@ -38,6 +42,7 @@ var users = ['kevbear'],
     streams = [];
 
 function createListener(username) {
+    console.log('Stream setup');
     return function (track) {
         for (var a = 0; a < sockets.length; a++) {
             sockets[a].emit(
