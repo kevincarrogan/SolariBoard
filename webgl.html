@@ -19,7 +19,6 @@
 	var board = window.Board = new Solari;
 	new SolariTexture().bind('load', function(){
 		var alphaSet = this;
-		new SolariTexture().bind('load', function(){
 			var row,
 				statusSet = this;
 
@@ -37,7 +36,6 @@
 			var lastFmPlugin = new LastFmPlugin();
 			board.registerPlugin(lastFmPlugin);
 			Board.start();
-        }).load('img/statuses.png', 'SFUBA '.split(''), 360, 64);
     }).load('img/chars.png', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-.# '.split(''), 70, 63);
 
 	})();

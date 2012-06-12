@@ -29,7 +29,7 @@ _.extend(SolariScreen.prototype, {
     pushMessage: function(msg){
         this.matrix.pop();
         this.matrix.unshift(Array.init(this.columns, ' '));
-        for(i = 0; i < this.matrix[0].length - 1; i++){
+        for(i = 0; i < this.matrix[0].length; i++){
             var c;
             if (i < msg.length){
                 c = msg[i];
