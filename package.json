@@ -1,12 +1,12 @@
 {
-	"name": "Solari",
-	"version": "0.0.1",
-	"dependencies": {
-		"lastfm": "0.8.0",
-		"socket.io": "0.8.7",
-		"express": "2.5.9"
-	},
-	"engines": {
-		"node": "0.6.x"
-	}
+  "name": "Solari",
+  "version": "0.0.1",
+  "dependencies": {
+  	"lastfm": "0.8.x",
+	"socket.io": "0.8.x",
+    "express": "2.5.x"
+  },
+  "engines": {
+    "node": "0.6.x"
+  }
 }
