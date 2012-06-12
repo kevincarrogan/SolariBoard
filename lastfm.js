@@ -1,7 +1,27 @@
-var LastFmNode = require('lastfm').LastFmNode;
-var http = require('http');
-var io = require('socket.io').listen(8091);
-var config = require('./lastfm.config.js');
+var LastFmNode = require('lastfm').LastFmNode
+  , express = require('express')
+  , app = express.createServer(express.logger())
+  , io = require('socket.io').listen(app);
+
+var port = process.env.PORT || 5000;
+
+app.listen(port, function () {
+    console.log("Listening on " + port);
+});
+
+app.use('/src', express.static(__dirname + '/src'))
+   .use('/lib', express.static(__dirname + '/lib'))
+   .use('/img', express.static(__dirname + '/img'))
+   .use('/plugins', express.static(__dirname + '/plugins'));
+
+app.get('/', function (req, res) {
+    res.sendfile(__dirname + '/webgl.html');
+});
+
+io.configure(function () {
+    io.set('transports', ['xhr-polling']);
+    io.set('polling duration', 5);
+});
 
 var sockets = [];
 
@@ -10,11 +30,11 @@ io.sockets.on('connection', function(socket){
 });
 
 var lastfm = new LastFmNode({
-    api_key: config.api_key,
-    secret: config.secret
+    api_key: process.env.API_KEY,
+    secret: process.env.SECRET
 });
 
-var users = config.users,
+var users = ['kevbear'],
     streams = [];
 
 function createListener(username) {

@@ -6,16 +6,14 @@
 	<script src="lib/backbone.js"></script>
 	<script src="lib/Three.js"></script>
 	<script src="lib/stats.js"></script>
-	<script src="http://dev-hson-1:8091/socket.io/socket.io.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
 	<script src="src/SolariTexture.js"></script>
 	<script src="src/SolariRow.js"></script>
 	<script src="src/SolariFlap.js"></script>
 	<script src="src/SolariScreen.js"></script>
 	<script src="src/Solari.js"></script>
 	<script src="src/SolariPlugin.js"></script>
-	<script src="plugins/jenkins.js"></script>
 	<script src="plugins/lastfm.js"></script>
-	<script src="plugins/time.js"></script>
 	<script>
 	(function(){
 	var board = window.Board = new Solari;
@@ -36,41 +34,8 @@
 				row.add(statusSet);
 				board.add(row);
 			});
-			var fidoJenkinsPlugin = new JenkinsPlugin({
-		        'fidodevelopment': 'FIDODEV',
-		        'fidodevelopmentdeployment': 'FIDODEVDEPLOY',
-		        'fidotesting': 'FIDOTEST',
-		        'fidotestingdeployment': 'FIDOTESTDEPLOY',
-		        'fidostaging': 'FIDOSTAGING',
-		        'fidostagingdeployment': 'FIDOSTAGINGDEP',
-		        'Skellington': 'SKELLINGTON',
-		        'Skelling-deployment': 'SKELLINGTONDEPLOY'
-		    });
-			board.registerPlugin(fidoJenkinsPlugin);
-			var kerbyJenkinsPlugin = new JenkinsPlugin({
-				'kerby-client': 'KERBYCLIENT',
-		        'kerby-server': 'KERBYSVR',
-		        'kerby-server-deployment': 'KERBYSVRDEP',
-		        'kerby-ui': 'KERBYUI',
-		        'kerby-ui-deployment': 'KERBYUIDEPLOY',
-		        'kerby-fido-integration': 'KERBYFIDINT',
-		        'kerby-fido-integration-deployment': 'KFIDDEPLOY'
-			});
-			board.registerPlugin(kerbyJenkinsPlugin);
-			var zonzaJenkinsPlugin = new JenkinsPlugin({
-				'zonza-dev': 'ZONZADEV',
-		        'ZonzaRest': 'ZONZAREST',
-		        'zonza-dev-selenium': 'ZONZASEL',
-		        'zonza-release': 'ZONZAREL',
-		        'zonza-release-selenium': 'ZONZASELREL',
-		        'zonza-deploy-dev-staging': 'ZDEVDEPLOYSTG',
-		        'zonza-deploy-dev-staging5': 'ZDEVDEPLOYSTG5'
-			});
-			board.registerPlugin(zonzaJenkinsPlugin);
-			var lastFmPlugin = new LastFmPlugin('http://dev-hson-1:8091');
+			var lastFmPlugin = new LastFmPlugin();
 			board.registerPlugin(lastFmPlugin);
-			var timePlugin = new TimePlugin;
-			board.registerPlugin(timePlugin);
 			Board.start();
         }).load('img/statuses.png', 'SFUBA '.split(''), 360, 64);
     }).load('img/chars.png', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-.# '.split(''), 70, 63);

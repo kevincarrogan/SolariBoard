@@ -1,12 +1,11 @@
-LastFmPlugin = function(socket_url){
-    this.socket_url = socket_url;
+LastFmPlugin = function(){
 };
 
 _.extend(LastFmPlugin.prototype, SolariPlugin.prototype);
 
 LastFmPlugin.prototype.init = function(scr){
     SolariPlugin.prototype.init.call(this, scr);
-    this.socket = new io.connect(this.socket_url);
+    this.socket = new io.connect();
 };
 
 LastFmPlugin.prototype.start = function(){
