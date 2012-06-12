@@ -25,7 +25,7 @@ io.configure(function () {
 
 var sockets = [];
 
-io.sockets.on('connection', function(socket){
+io.sockets.on('connection', function (socket){
     sockets.push(socket);
 });
 
@@ -38,8 +38,8 @@ var users = ['kevbear'],
     streams = [];
 
 function createListener(username) {
-    return function(track) {
-        for (a = 0; a < sockets.length; a++) {
+    return function (track) {
+        for (var a = 0; a < sockets.length; a++) {
             sockets[a].emit(
                 'lastfm',
                 {
@@ -57,7 +57,7 @@ function err(error) {
     //NOOP
 }
 
-for (i = 0; i < users.length; i++) {
+for (var i = 0; i < users.length; i++) {
     streams[i] = lastfm.stream(users[i]);
     streams[i].on(
         'nowPlaying',
