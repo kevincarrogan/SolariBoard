@@ -1,1 +1,1 @@
-web: node lastfm.js
+web: node web.js
